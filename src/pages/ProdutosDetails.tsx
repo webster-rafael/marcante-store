@@ -49,7 +49,7 @@ const ProdutosDetails = () => {
   }
 
   return (
-    <section id="topo" className="w-full mt-32 px-3">
+    <section id="topo" className="w-full h-full mt-32 px-3">
       <header className="w-full text-zinc-600 py-2">
         <nav className="flex items-center text-sm gap-1">
           <Link to="/" className="w-full flex-1 flex items-center gap-1">
@@ -71,7 +71,7 @@ const ProdutosDetails = () => {
 
       <div className="relative w-full overflow-hidden">
         <div className="w-full flex transition-transform duration-300">
-          <div className="w-full gap-4 p-2">
+          <div className="w-full h-full gap-4 p-2">
             <div className="w-full flex items-center justify-center" key={produto.id}>
               <CardsDetails
                 key={produto.id}
@@ -138,7 +138,7 @@ const ProdutosDetails = () => {
               </div>
             </div>
 
-            <div className="w-full flex flex-col gap-1">
+            <div className="w-full flex flex-col gap-1 my-4">
               <p>Tamanho: {tamanho ? tamanho : "Selecione um tamanho"}</p>
               <div className="w-full flex gap-3">
                 <button
@@ -173,7 +173,7 @@ const ProdutosDetails = () => {
                 produto.estoque
                   ? "bg-green-200 text-green-700"
                   : "bg-red-200 text-red-600"
-              } w-28 h-7 flex items-center justify-center font-bold px-1 rounded-md`}
+              } w-28 h-7 flex items-center justify-center font-bold px-1 my-4 rounded-md`}
             >
               {produto.estoque ? "Em estoque" : "Indisponível"}
             </div>
@@ -187,7 +187,7 @@ const ProdutosDetails = () => {
               </button>
             </div>
 
-            <div className="w-full">
+            <div className="w-full py-4">
               <h1 className="text-sm">Calcular o prazo de entrega</h1>
               <div className="w-full flex justify-between items-center gap-2">
                 <span>
@@ -238,7 +238,7 @@ const ProdutosDetails = () => {
                 </span>
               </div>
               {modal && (
-                <div className="bg-zinc-100 p-3">
+                <div className="bg-zinc-100 p-3 h-full">
                   <p>
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                     Itaque aliquam magni beatae aliquid quidem maxime odio a
@@ -304,8 +304,8 @@ const ProdutosDetails = () => {
               )}
             </div>
 
-            <div className="w-full h-full">
-              <h1>Quem viu este produto também comprou</h1>
+            <div className="w-full h-full py-5">
+              <h1 className="font-semibold text-purple-700">Quem viu este produto também comprou</h1>
               <div className="w-full grid grid-cols-2 gap-2">
                 {produtos
                   .filter((p) => p.type === produto.type)
