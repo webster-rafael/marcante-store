@@ -45,11 +45,11 @@ const Header = () => {
         </span>
 
         {menuVisible ? (
-          <div className="sm:hidden absolute w-2/4 top-24 z-20 left-2 bg-gradient-to-b from-neutral-800 via-primary to-neutral-900 text-white flex justify-center rounded-md">
+          <div className="sm:hidden absolute w-3/5 top-24 z-20 left-2 bg-gradient-to-b from-neutral-800 via-primary to-neutral-900 text-white flex justify-start px-3 rounded-md">
             <nav className="flex flex-col gap-3 text-zinc-300 text-lg py-5">
               <Link
                 onClick={handleLinkClick}
-                className="flex items-center gap-2 hover:scale-105 hover:underline underline-offset-4 decoration-pink-400 text-zinc-50"
+                className="flex items-center gap-2 hover:scale-105 hover:underline underline-offset-4 decoration-pink-400 text-zinc-50 border-b border-zinc-600 pb-2"
                 to="/"
               >
                 <RiHome3Fill className="size-8 text-purple-700" />
