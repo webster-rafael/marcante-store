@@ -305,7 +305,7 @@ const ProdutosDetails = () => {
             </div>
 
             <div className="w-full h-full py-5">
-              <h1 className="font-semibold text-purple-700">Quem viu este produto também comprou</h1>
+              <h1 className="font-semibold text-purple-700 pb-3">Quem viu este produto também comprou</h1>
               <div className="w-full grid grid-cols-2 gap-2">
                 {produtos
                   .filter((p) => p.type === produto.type)
