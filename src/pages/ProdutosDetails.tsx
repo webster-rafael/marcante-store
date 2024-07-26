@@ -70,9 +70,9 @@ const ProdutosDetails = () => {
       </header>
 
       <div className="relative w-full overflow-hidden">
-        <div className="flex transition-transform duration-300">
-          <div className="w-full flex-none grid gap-4 p-2">
-            <div className="flex items-center justify-center" key={produto.id}>
+        <div className="w-full flex transition-transform duration-300">
+          <div className="w-full gap-4 p-2">
+            <div className="w-full flex items-center justify-center" key={produto.id}>
               <CardsDetails
                 key={produto.id}
                 img={produto.img}
@@ -98,8 +98,8 @@ const ProdutosDetails = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col w-40 justify-center items-center h-16">
-                  <span className="text-2xl font-bold">
+                <div className="flex flex-col w-32 justify-center items-center h-16">
+                  <span className="text-xl font-bold">
                     {produto.price.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
