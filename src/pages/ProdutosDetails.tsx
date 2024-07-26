@@ -194,11 +194,11 @@ const ProdutosDetails = () => {
                   <HiOutlineTruck className="size-8 text-zinc-500" />
                 </span>
                 <input
-                  className="rounded-md outline-none border flex-1 px-2 text-sm h-10 focus:border-purple-800"
+                  className="rounded-md outline-none border w-full px-2 text-sm h-10 focus:border-purple-800"
                   type="text"
                   placeholder="Digite seu CEP"
                 />
-                <button className="bg-zinc-900 hover:bg-zinc-700 hover:text-zinc-100 text-purple-500 h-10 w-24 rounded-md">
+                <button className="bg-zinc-900 hover:bg-zinc-700 hover:text-zinc-100 text-purple-500 h-10 w-24 px-3 rounded-md">
                   Calcular
                 </button>
               </div>
