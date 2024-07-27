@@ -1,7 +1,4 @@
-import {
-  AiOutlineMenuFold,
-  AiOutlineMenuUnfold,
-} from "react-icons/ai";
+import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa";
 import { IoBagAddOutline } from "react-icons/io5";
 import { RiHome3Fill, RiUserShared2Line } from "react-icons/ri";
@@ -12,11 +9,13 @@ import { BiSolidShoppingBags } from "react-icons/bi";
 import { MdOutlineRoundaboutLeft } from "react-icons/md";
 import data from "../../data/data.json";
 import TypeSelect from "./typeSelect";
+import { useCart } from "../../store/useCart";
 // import { RiUserReceivedLine } from "react-icons/ri"; //se tiver logado
-// import { IoBagCheckOutline } from "react-icons/io5"; //se tiver item no carrinho
+import { IoBagCheckOutline } from "react-icons/io5"; //se tiver item no carrinho
 
 const Header = () => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const { cart } = useCart();
   const produtos = data
     .filter((produto) => produto.type || produto.id)
     .map((produto) => ({ id: produto.id, type: produto.type }));
@@ -91,13 +90,20 @@ const Header = () => {
 
         <div className="flex gap-3">
           <span>
-            <FaRegHeart className="size-6" />
+            <FaRegHeart className="size-7" />
           </span>
           <span>
-            <RiUserShared2Line className="size-6" />
+            <RiUserShared2Line className="size-7" />
           </span>
-          <Link to={'/cart'}>
-            <IoBagAddOutline className="size-6" />
+          <Link className="relative" to={"/cart"}>
+            <span className="absolute top-0 bg-white text-purple-700 rounded-full size-5 flex items-center justify-center font-semibold text-xs -right-3">
+              {cart.length}
+            </span>
+            {cart.length > 0 ? (
+              <IoBagCheckOutline className="size-7" />
+            ) : (
+              <IoBagAddOutline className="size-7" />
+            )}
           </Link>
         </div>
       </header>
