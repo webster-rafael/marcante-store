@@ -10,6 +10,7 @@ import { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineTruck } from "react-icons/hi2";
 import CardsLancamento from "../components/Oferta/cards";
+import { useCart } from "../store/useCart";
 
 const ProdutosDetails = () => {
   const [color, setColor] = useState("");
@@ -17,6 +18,7 @@ const ProdutosDetails = () => {
   const [modal, setModal] = useState(false);
   const { slug } = useParams<{ slug: string }>();
   const produtos: Produtos[] = data;
+  const { addToCart } = useCart();
 
   if (!slug) {
     return <div>Parâmetro de produto inválido</div>;
@@ -72,7 +74,10 @@ const ProdutosDetails = () => {
       <div className="relative w-full overflow-hidden">
         <div className="w-full flex transition-transform duration-300">
           <div className="w-full h-full gap-4 p-2">
-            <div className="w-full flex items-center justify-center" key={produto.id}>
+            <div
+              className="w-full flex items-center justify-center"
+              key={produto.id}
+            >
               <CardsDetails
                 key={produto.id}
                 img={produto.img}
@@ -179,7 +184,7 @@ const ProdutosDetails = () => {
             </div>
 
             <div className="w-full flex gap-2">
-              <button className="bg-purple-700 w-full h-10 rounded-md text-zinc-100 hover:bg-purple-900">
+              <button onClick={() => addToCart(produto)} className="bg-purple-700 w-full h-10 rounded-md text-zinc-100 hover:bg-purple-900">
                 Comprar
               </button>
               <button className="rounded-md border border-zinc-600 size-10 p-2 flex justify-center items-center hover:scale-110">
@@ -305,7 +310,9 @@ const ProdutosDetails = () => {
             </div>
 
             <div className="w-full h-full py-5">
-              <h1 className="font-semibold text-purple-700 pb-3">Quem viu este produto também comprou</h1>
+              <h1 className="font-semibold text-purple-700 pb-3">
+                Quem viu este produto também comprou
+              </h1>
               <div className="w-full grid grid-cols-2 gap-2">
                 {produtos
                   .filter((p) => p.type === produto.type)

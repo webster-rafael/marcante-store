@@ -96,9 +96,9 @@ const Header = () => {
           <span>
             <RiUserShared2Line className="size-6" />
           </span>
-          <span>
+          <Link to={'/cart'}>
             <IoBagAddOutline className="size-6" />
-          </span>
+          </Link>
         </div>
       </header>
       <Pesquisa />
