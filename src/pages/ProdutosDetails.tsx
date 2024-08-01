@@ -11,6 +11,10 @@ import { CiHeart } from "react-icons/ci";
 import { HiOutlineTruck } from "react-icons/hi2";
 import CardsLancamento from "../components/Oferta/cards";
 import { useCart } from "../store/useCart";
+import { useFavorite } from "../store/useFavorite";
+import { FaHeart } from "react-icons/fa";
+import { GoVerified } from "react-icons/go";
+import { BiError } from "react-icons/bi";
 
 const ProdutosDetails = () => {
   const [color, setColor] = useState("");
@@ -18,7 +22,34 @@ const ProdutosDetails = () => {
   const [modal, setModal] = useState(false);
   const { slug } = useParams<{ slug: string }>();
   const produtos: Produtos[] = data;
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
+  const { addToFavorite, favoritos } = useFavorite();
+  const [isCardVisible, setIsCardVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>("");
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
+
+  const handleAddToCart = (produto: Produtos) => {
+    if (cart.some((item) => item.id === produto.id)) {
+      setModalMessage(
+        <div className="flex items-center gap-1">
+          <span>Este produto já foi adicionado</span>
+          <BiError className="size-6" />
+        </div>
+      );
+    } else {
+      const itemToAdd = { ...produto, quantity: selectedQuantity };
+      addToCart(itemToAdd);
+      setModalMessage(
+        <div className="flex items-center gap-1">
+          <span>Produto adicionado ao carrinho</span>
+          <GoVerified className="size-6" />
+        </div>
+      );
+    }
+    setIsCardVisible(true);
+    setTimeout(() => setIsCardVisible(false), 3000); // Oculta o card após 3 segundos
+  };
 
   if (!slug) {
     return <div>Parâmetro de produto inválido</div>;
@@ -50,8 +81,10 @@ const ProdutosDetails = () => {
     setModal(false);
   }
 
+
+
   return (
-    <section id="topo" className="w-full h-full mt-32 px-3">
+    <section id="topo" className="w-full h-full mt-32 px-3 relative">
       <header className="w-full text-zinc-600 py-2">
         <nav className="flex items-center text-sm gap-1">
           <Link to="/" className="w-full flex-1 flex items-center gap-1">
@@ -184,11 +217,26 @@ const ProdutosDetails = () => {
             </div>
 
             <div className="w-full flex gap-2">
-              <button onClick={() => addToCart(produto)} className="bg-purple-700 w-full h-10 rounded-md text-zinc-100 hover:bg-purple-900">
+              <button
+                onClick={() => handleAddToCart(produto)}
+                className="bg-purple-700 w-full h-10 rounded-md text-zinc-100 hover:bg-purple-900"
+              >
                 Comprar
               </button>
-              <button className="rounded-md border border-zinc-600 size-10 p-2 flex justify-center items-center hover:scale-110">
-                <CiHeart className="size-6 text-purple-700" />
+              <div className="flex w-40 gap-2">
+                <button className="border border-purple-400 size-10 p-3 rounded-lg flex justify-center items-center hover:bg-zinc-100" onClick={() => setSelectedQuantity(Math.max(1, selectedQuantity - 1))}>-</button>
+                <input value={selectedQuantity} className="w-4 font-semibold text-center" type="text" />
+                <button className="border border-purple-400 size-10 p-3 rounded-lg flex justify-center items-center hover:bg-zinc-100" onClick={() => setSelectedQuantity(selectedQuantity + 1)}>+</button>
+              </div>
+              <button
+                onClick={() => addToFavorite(produto)}
+                className="rounded-md border border-zinc-600 size-10 p-2 flex justify-center items-center hover:scale-110"
+              >
+                {favoritos.some((item) => item.id === produto.id) ? (
+                  <FaHeart className="size-6 text-red-700" />
+                ) : (
+                  <CiHeart className="size-6 text-purple-700" />
+                )}
               </button>
             </div>
 
@@ -329,6 +377,15 @@ const ProdutosDetails = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="w-full flex justify-center">
+        <span
+          className={`fixed bottom-0 transition-transform duration-500 bg-purple-900 w-3/4 h-10 flex justify-center items-center rounded-t-md text-center text-sm text-zinc-50 mx-auto ${
+            isCardVisible ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <>{modalMessage}</>
+        </span>
       </div>
     </section>
   );

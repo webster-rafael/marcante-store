@@ -1,5 +1,5 @@
 export interface Produtos {
-  id: string;
+id: string;
   img: string;
   title: string;
   price: number;
@@ -24,3 +24,11 @@ export type CartStore = {
   // loading: boolean;
   // error: string | null;
 };
+
+export type FavoriteStore = {
+  favoritos: Produtos[];
+  addToFavorite: (item: Produtos) => void;
+  item: Produtos[]
+  removeFromFavorite: (id: string) => void;
+  
+}

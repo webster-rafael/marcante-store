@@ -12,10 +12,12 @@ import TypeSelect from "./typeSelect";
 import { useCart } from "../../store/useCart";
 // import { RiUserReceivedLine } from "react-icons/ri"; //se tiver logado
 import { IoBagCheckOutline } from "react-icons/io5"; //se tiver item no carrinho
+import { useFavorite } from "../../store/useFavorite";
 
 const Header = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const { cart } = useCart();
+  const { favoritos } = useFavorite();
   const produtos = data
     .filter((produto) => produto.type || produto.id)
     .map((produto) => ({ id: produto.id, type: produto.type }));
@@ -89,14 +91,17 @@ const Header = () => {
         </div>
 
         <div className="flex gap-3">
-          <span>
+          <Link to={"/favorite"} className="relative">
+            <span className="absolute -top-1 bg-white text-purple-700 rounded-full size-5 flex items-center justify-center font-semibold text-xs -right-3">
+              {favoritos.length}
+            </span>
             <FaRegHeart className="size-7" />
-          </span>
+          </Link>
           <span>
             <RiUserShared2Line className="size-7" />
           </span>
           <Link className="relative" to={"/cart"}>
-            <span className="absolute top-0 bg-white text-purple-700 rounded-full size-5 flex items-center justify-center font-semibold text-xs -right-3">
+            <span className="absolute -top-1 bg-white text-purple-700 rounded-full size-5 flex items-center justify-center font-semibold text-xs -right-3">
               {cart.length}
             </span>
             {cart.length > 0 ? (
