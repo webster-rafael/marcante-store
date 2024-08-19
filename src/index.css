@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mercado-pago-container .skeleton-button {
+    width: 80%; /* Largura do botão */
+    height: 40px; /* Altura do botão */
+    background-color: #e0e0e0; /* Cor do skeleton */
+    border-radius: 5px; /* Bordas arredondadas */
+    animation: shimmer 1.5s infinite linear; /* Animação de brilho */
+  }
+  
+  /* Animação de brilho */
+  @keyframes shimmer {
+    0% {
+      background-position: -200px 0;
+    }
+    100% {
+      background-position: 200px 0;
+    }
+  }
+  
+  .mercado-pago-container {
+    display: flex;
+    justify-content: center; /* Centraliza o botão ou skeleton */
+    align-items: center;
+  }
+  
+  

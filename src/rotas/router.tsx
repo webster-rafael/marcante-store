@@ -6,6 +6,7 @@ import ProdutosPage from "../pages/Produtos";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import Cart from "../pages/cart";
 import FavoritePage from "../pages/Favorite";
+import { TodosOsProdutos } from "../pages/ProdutosPage";
 
 function AppRoutes() {
   return (
@@ -16,6 +17,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/:type" element={<ProdutosPage />} />
         <Route path="/produtos/:slug" element={<ProdutosDetails />} />
+        <Route path="/produtos" element={<TodosOsProdutos />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorite" element={<FavoritePage />} />
       </Routes>

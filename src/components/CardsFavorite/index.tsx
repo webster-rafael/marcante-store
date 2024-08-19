@@ -5,7 +5,7 @@ import { useCart } from "../../store/useCart";
 import { Produtos } from "../../types/types";
 interface Props {
   item: Produtos;
-  removeFromFavorite: (item: string) => void;
+  removeFromFavorite: (item: number) => void;
 }
 
 const CardsFavorite = ({ removeFromFavorite, item }: Props) => {
@@ -13,12 +13,12 @@ const CardsFavorite = ({ removeFromFavorite, item }: Props) => {
   return (
     <div className="w-full flex justify-between items-center gap-2 border-b py-4">
       <Link to={`/produtos/${item.slug}`}>
-        <img className="size-16 rounded-full" src={item.img} alt={item.title} />
+        <img className="size-16 rounded-full" src={item.images[0].src} alt={item.name} />
       </Link>
-      <span className="flex-1 text-sm w-20 truncate">{item.title}</span>
+      <span className="flex-1 text-sm w-20 truncate">{item.name}</span>
       <div className="flex justify-center items-center gap-3">
         <span className="w-20 flex justify-center font-semibold">
-          {item.price.toLocaleString("pt-BR", {
+          {Number(item.price).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
           })}
