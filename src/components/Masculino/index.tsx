@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import data from "../../data/data.json";
 import CardsLancamento from "../Oferta/cards";
+import { useData } from "../../store/useData";
 
 const Masculino = () => {
-  const produtos = data.filter((produto) => produto.genero === "masculino");
+  const { products } = useData();
+  const produtos = products.filter((produto) => produto.genero === "masculino");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
 
@@ -36,9 +37,12 @@ const Masculino = () => {
       prevIndex === 0 ? totalPages - 1 : prevIndex - 1
     );
   };
+
   return (
     <section className="w-full h-full py-10 px-2">
-      <h1 className="text-xl text-center text-purple-800 font-semibold uppercase">Para Eles</h1>
+      <h1 className="text-xl text-center text-purple-800 font-semibold uppercase">
+        Para Eles
+      </h1>
       <div className="relative w-full overflow-hidden">
         <div
           className="flex transition-transform duration-300"
@@ -61,7 +65,17 @@ const Masculino = () => {
                     className="flex items-center justify-center"
                     key={produto.id}
                   >
-                    <CardsLancamento key={produto.id} img={produto.img} title={produto.title} price={produto.price} slug={produto.slug} />
+                    <CardsLancamento
+                      key={produto.id}
+                      img={
+                        Array.isArray(produto.images)
+                          ? produto.images
+                          : [{ src: produto.images }]
+                      }
+                      title={produto.name}
+                      price={produto.price}
+                      slug={produto.slug}
+                    />
                   </div>
                 ))}
             </div>

@@ -5,6 +5,7 @@ export interface Produtos {
   price: number;
   slug: string | undefined;
   categories: Category[];
+  tags: Tag[];
   ofertas?: boolean;
   lançamentos?: boolean;
   genero?: string;
@@ -13,7 +14,7 @@ export interface Produtos {
   description?: string;
   attributes: Attributes[]
 }
-interface Category {
+export interface Category {
   id: number;
   name: string;
   slug: string;
@@ -27,6 +28,12 @@ export interface Attributes {
 
 export interface Images {
   src: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 export type CartStore = {

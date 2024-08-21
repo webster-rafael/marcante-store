@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import CardsLancamento from "./cards";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import data from "../../data/data.json";
+import { useData } from "../../store/useData";
 
 const Ofertas = () => {
-  const produtos = data.filter((produto) => produto.ofertas);
+  const { products } = useData(); // Obtenha os produtos do Zustand
+  const produtosOfertas = products.filter((produto) => produto.ofertas);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
 
@@ -23,7 +24,7 @@ const Ofertas = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil(produtos.length / itemsPerPage);
+  const totalPages = Math.ceil(produtosOfertas.length / itemsPerPage);
 
   const nextProduct = () => {
     setCurrentIndex((prevIndex) =>
@@ -36,16 +37,19 @@ const Ofertas = () => {
       prevIndex === 0 ? totalPages - 1 : prevIndex - 1
     );
   };
+
   return (
     <section className="w-full h-full py-10 px-2">
-      <h1 className="text-xl text-center text-purple-800 font-bold uppercase">Ofertas de Hoje</h1>
+      <h1 className="text-xl text-center text-purple-800 font-bold uppercase">
+        Ofertas de Hoje
+      </h1>
       <div className="relative w-full overflow-hidden">
         <div
           className="flex transition-transform duration-300"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {Array.from({
-            length: Math.ceil(produtos.length / itemsPerPage),
+            length: Math.ceil(produtosOfertas.length / itemsPerPage),
           }).map((_, pageIndex) => (
             <div
               className="w-full flex-none grid gap-4 p-2"
@@ -54,14 +58,24 @@ const Ofertas = () => {
               }}
               key={pageIndex}
             >
-              {produtos
+              {produtosOfertas
                 .slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage)
                 .map((produto) => (
                   <div
                     className="flex items-center justify-center"
                     key={produto.id}
                   >
-                    <CardsLancamento key={produto.id} img={produto.img} title={produto.title} price={produto.price} slug={produto.slug} />
+                    <CardsLancamento
+                      key={produto.id}
+                      img={
+                        Array.isArray(produto.images)
+                          ? produto.images
+                          : [{ src: produto.images }]
+                      }
+                      title={produto.name}
+                      price={produto.price}
+                      slug={produto.slug}
+                    />
                   </div>
                 ))}
             </div>

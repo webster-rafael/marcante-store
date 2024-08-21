@@ -1,20 +1,24 @@
 import { GoSearch } from "react-icons/go";
 import { Link } from "react-router-dom";
-import data from "../../data/data.json";
 import { useState } from "react";
 import { Produtos } from "../../types/types";
 import { IoIosClose } from "react-icons/io";
+import { useData } from "../../store/useData";
 
 const Pesquisa = () => {
   const [busca, setBusca] = useState("");
+  const { products } = useData();
 
-  const produtos = data.filter(
-    (produto: Produtos) =>
-      produto.title.toLowerCase().includes(busca.toLowerCase()) ||
-      produto.type.toLowerCase().includes(busca.toLowerCase())
+  // Filtrando os produtos com base na busca
+  const produtos = products.filter((produto: Produtos) =>
+    produto.name.toLowerCase().includes(busca.toLowerCase()) ||
+    produto.categories.some((category) =>
+      category.name.toLowerCase().includes(busca.toLowerCase())
+    )
   );
 
-  const deletevalue = () => setBusca("");
+  // Função para limpar a busca
+  const deleteValue = () => setBusca("");
 
   return (
     <div className="w-full h-12 fixed z-10">
@@ -28,34 +32,34 @@ const Pesquisa = () => {
         />
 
         {busca && (
-          <span onClick={deletevalue} className="w-16 flex justify-center">
-            <IoIosClose className="text-purple-800 size-5" />
+          <span onClick={deleteValue} className="w-16 flex justify-center cursor-pointer">
+            <IoIosClose className="text-purple-800 text-2xl" />
           </span>
         )}
 
         <span className="w-16 flex justify-center border-l border-zinc-300">
-          <GoSearch className="text-zinc-500 size-7" />
+          <GoSearch className="text-zinc-500 text-xl" />
         </span>
       </div>
 
       {busca && (
-        <ul className="w-full lg:w-2/4 max-h-80 overflow-auto flex space-y-1 flex-col justify-between p-1 bg-zinc-100 absolute z-20 rounded-b-md shadow-md">
+        <ul className="w-full lg:w-2/4 max-h-80 overflow-auto flex flex-col space-y-1 p-1 bg-zinc-100 absolute z-20 rounded-b-md shadow-md">
           {produtos.length > 0 ? (
             produtos.map((produto) => (
               <Link
-                onClick={deletevalue}
+                onClick={deleteValue}
                 key={produto.id}
                 to={`/produtos/${produto.slug}`}
               >
-                <li className="w-full flex justify-between items-center pr-5 border-b p-1">
-                  <img
+                <li className="w-full flex gap-2  justify-between items-center pr-5 border-b p-1">
+                  <img 
                     className="w-16 mix-blend-multiply"
-                    src={produto.img}
-                    alt={produto.type}
+                    src={produto.images[0]?.src}
+                    alt={produto.name}
                   />
-                  <h1>{produto.title}</h1>
+                  <h1 className="w-64 truncate">{produto.name}</h1>
                   <span>
-                    {produto.price.toLocaleString("pt-BR", {
+                    {Number(produto.price).toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}

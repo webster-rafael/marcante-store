@@ -32,14 +32,14 @@ const Cart = () => {
   const createPreference = async (items: CartItem[], total: number) => {
     try {
       const response = await axios.post(
-        "https://server-marcante-8y0ru7uum-webster-devs-projects.vercel.app/create_preference",
+        "https://server-marcante.vercel.app/create_preference",
         {
           items: items.map((item) => ({
             name: item.name,
             quantity: item.quantity ?? 1,
             price: Number(item.price),
           })),
-          total_amount: total, // Inclua o valor total calculado (já com frete)
+          total_amount: total,
         }
       );
 
@@ -54,8 +54,7 @@ const Cart = () => {
 
   const handleBuy = async () => {
     const subtotal = calculateTotal();
-    const total_amount = subtotal; // Total dos itens
-
+    const total_amount = subtotal;
     console.log("Subtotal:", subtotal);
 
     const id = await createPreference(
@@ -76,6 +75,7 @@ const Cart = () => {
     if (cart.length > 0) {
       handleBuy();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
   return (
     <main className="w-full max-w-[1200px] h-full mt-20 mx-auto font-franklin text-zinc-50 flex flex-col gap-10">

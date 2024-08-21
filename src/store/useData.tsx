@@ -1,32 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
-import { Attributes } from "../types/types";
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  images: string;
-  src: Images[];
-  slug: string;
-  categories: Category[]
-  attributes: Attributes[]
-  // Adicione outros campos conforme necessário
-}
-
-interface Category {
-    id: number;
-    name: string;
-    slug: string;
-  }
-
-  interface Images {
-    id: number
-    src: string
-  }
+import { Produtos } from "../types/types";
 
 interface ProductState {
-  products: Product[];
+  products: Produtos[];
   loading: boolean;
   error: string | null;
   fetchProducts: () => void;
@@ -39,7 +16,7 @@ export const useData = create<ProductState>((set) => ({
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.get<Product[]>(
+      const response = await axios.get<Produtos[]>(
         "https://catalogomarcante.shop/wp-json/wc/v3/products",
         {
           params: {
@@ -48,8 +25,24 @@ export const useData = create<ProductState>((set) => ({
           },
         }
       );
-      set({ products: response.data });
+
+      const productsWithTags = response.data.map(product => {
+        const ofertasTag = product.tags.some(tag => tag.slug === 'ofertas');
+        const femininoTag = product.tags.some(tag => tag.slug === 'feminino');
+        const masculinoTag = product.tags.some(tag => tag.slug === 'masculino');
+        const lancamentoTag = product.tags.some(tag => tag.slug === 'lancamento');
+
+        return {
+          ...product,
+          ofertas: ofertasTag,
+          genero: femininoTag ? 'feminino' : masculinoTag ? 'masculino' : product.genero,
+          lançamentos: lancamentoTag,
+        };
+      });
+
+      set({ products: productsWithTags });
     } catch (err) {
+      console.error(err);
       set({ error: "Erro ao buscar produtos" });
     } finally {
       set({ loading: false });

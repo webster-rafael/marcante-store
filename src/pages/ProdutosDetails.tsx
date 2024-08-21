@@ -167,21 +167,22 @@ const ProdutosDetails = () => {
               <p>Cor: {color ? color : "Selecione uma cor"}</p>
               <div className="w-full flex gap-3">
                 {produto.attributes[0].options.map((cor, index) => {
-                  const corClasse = {
-                    Azul: "bg-blue-500",
-                    Laranja: "bg-orange-500",
-                    Vermelho: "bg-red-500",
-                    Verde: "bg-green-500",
-                    Rosa: "bg-pink-500",
-                    Preto: "bg-black",
-                    Branco: "bg-white",
-                    Cinza: "bg-gray-500",
-                    Amarelo: "bg-yellow-500",
-                    Roxo: "bg-purple-500",
-                    Marrom: "bg-brown-500",
-                    AzulClaro: "bg-sky-500",
-                    VerdeClaro: "bg-teal-500",
-                  }[cor] || "bg-gray-500";
+                  const corClasse =
+                    {
+                      Azul: "bg-blue-500",
+                      Laranja: "bg-orange-500",
+                      Vermelho: "bg-red-500",
+                      Verde: "bg-green-500",
+                      Rosa: "bg-pink-500",
+                      Preto: "bg-black",
+                      Branco: "bg-white",
+                      Cinza: "bg-gray-500",
+                      Amarelo: "bg-yellow-500",
+                      Roxo: "bg-purple-500",
+                      Marrom: "bg-brown-500",
+                      AzulClaro: "bg-sky-500",
+                      VerdeClaro: "bg-teal-500",
+                    }[cor] || "bg-gray-500";
 
                   return (
                     <button
@@ -241,9 +242,11 @@ const ProdutosDetails = () => {
                 </button>
                 <input
                   value={selectedQuantity}
+                  onChange={(e) => setSelectedQuantity(Number(e.target.value))}
                   className="w-4 font-semibold text-center"
                   type="text"
                 />
+
                 <button
                   className="border border-purple-400 size-10 p-3 rounded-lg flex justify-center items-center hover:bg-zinc-100"
                   onClick={() => setSelectedQuantity(selectedQuantity + 1)}
