@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
-import data from "../../data/data.json";
+import { useData } from "../../store/useData";
 import CardsLancamento from "../Oferta/cards";
 
 const Feminino = () => {
-const produtos = data.filter((produto) => produto.genero === "feminino");
+  const { products, loading, error, fetchProducts } = useData();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
 
   useEffect(() => {
+    fetchProducts(); // Fetch products when component mounts
+
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setItemsPerPage(2);
@@ -21,8 +23,9 @@ const produtos = data.filter((produto) => produto.genero === "feminino");
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [fetchProducts]);
 
+  const produtos = products.filter((produto) => produto.genero === "feminino");
   const totalPages = Math.ceil(produtos.length / itemsPerPage);
 
   const nextProduct = () => {
@@ -36,6 +39,10 @@ const produtos = data.filter((produto) => produto.genero === "feminino");
       prevIndex === 0 ? totalPages - 1 : prevIndex - 1
     );
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <section className="w-full h-full py-10 px-1">
       <h1 className="text-xl text-center text-purple-800 font-semibold uppercase">Para Elas</h1>
@@ -45,7 +52,7 @@ const produtos = data.filter((produto) => produto.genero === "feminino");
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {Array.from({
-            length: Math.ceil(produtos.length / itemsPerPage),
+            length: totalPages,
           }).map((_, pageIndex) => (
             <div
               className="w-full flex-none grid gap-4 p-2"
@@ -61,7 +68,12 @@ const produtos = data.filter((produto) => produto.genero === "feminino");
                     className="flex items-center justify-center"
                     key={produto.id}
                   >
-                    <CardsLancamento key={produto.id} img={produto.img} title={produto.title} price={produto.price} slug={produto.slug} />
+                    <CardsLancamento
+                      img={produto.images}
+                      title={produto.name}
+                      price={produto.price}
+                      slug={produto.slug}
+                    />
                   </div>
                 ))}
             </div>
